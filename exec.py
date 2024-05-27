@@ -21,6 +21,10 @@ from langchain_openai import OpenAI
 from langchain.agents import create_sql_agent
 import os
 from dotenv import load_dotenv
+import subprocess
+import sys
+from dotenv import load_dotenv
+import re
 
 database_file_path = './sql_lite_database.db'
 
@@ -166,57 +170,47 @@ for row in insert_query.splitlines():
     try:
         cursor.execute(row)
     except:
-        print(f"An error occurred")
-        print(row)
-
-# Step 5: Fetch data from tables
-list_of_queries = []
-list_of_queries.append("SELECT * FROM AGENTS")
-list_of_queries.append("SELECT * FROM CUSTOMER")
-list_of_queries.append("SELECT * FROM ORDERS")
-
-# execute queries
-for query in list_of_queries:
-    cursor.execute(query)
-    data = cursor.fetchall()
-
-    print(f"--- Data from tables ({query}) ---")
-    for row in data:
-        print(row)
-
+        st.write(f"An error occurred")
+        st.write(row)
+'''
+'''
 # Step 7: Close the cursor and connection
 cursor.close()
 conn.commit()
 conn.close()
-
-st.title("Streamlit SQL Query App")
-api_key = st.text_input("Enter your OpenAI API Key:", type="password")
-os.environ['OPENAI_API_KEY'] = api_key
-load_dotenv()
-
 db = SQLDatabase.from_uri('sqlite:///sql_lite_database.db')
-
-# choose llm model, in this case the default OpenAI model
-llm = OpenAI(
-            temperature=0,
-            verbose=True,
-            openai_api_key=os.getenv("OPENAI_API_KEY"),
-            )
-# setup agent
-toolkit = SQLDatabaseToolkit(db=db, llm=llm)
-agent_executor = create_sql_agent(
-    llm=llm,
-    toolkit=toolkit,
-    verbose=True,
-    agent_type=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
-)
-
 
 def main():
     st.title("SQL Agent Web App")
+    output_filename = "output.txt"
     prompt = st.text_input("Ask a question:")
     if st.button("Ask"):
+        output_filename="output.txt"
+        sys.stdout = open(output_filename, "w")
         st.write(agent_executor.invoke(prompt))
-
-if __name__ == "__main__":
+        sys.stdout.close()
+try:
+    st.title("Streamlit SQL Query App")
+    api_key_placeholder = st.empty()  # Create an empty placeholder
+    api_key = api_key_placeholder.text_input("Enter your OpenAI API Key:", type="password")
+    os.environ['OPENAI_API_KEY'] = api_key
+    load_dotenv()
+# choose llm model, in this case the default OpenAI model
+    llm = OpenAI(
+            temperature=0,
+            verbose=False,
+            openai_api_key=os.getenv("OPENAI_API_KEY"),
+            )
+# setup agent
+    toolkit = SQLDatabaseToolkit(db=db, llm=llm)
+    agent_executor = create_sql_agent(
+        llm=llm,
+        toolkit=toolkit,
+        verbose=True,
+        agent_type=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
+)
+    st.empty()
+    api_key_placeholder.empty()
     main()
+except:
+    st.write("invalid api [-_-] try again :<")
