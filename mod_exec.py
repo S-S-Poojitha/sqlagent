@@ -171,20 +171,6 @@ for row in insert_query.splitlines():
         st.write(f"An error occurred")
         st.write(row)
 '''
-# Step 5: Fetch data from tables
-list_of_queries = []
-list_of_queries.append("SELECT * FROM AGENTS")
-list_of_queries.append("SELECT * FROM CUSTOMER")
-list_of_queries.append("SELECT * FROM ORDERS")
-
-# execute queries
-for query in list_of_queries:
-    cursor.execute(query)
-    data = cursor.fetchall()
-
-    print(f"--- Data from tables ({query}) ---")
-    for row in data:
-        st.write(row)
 '''
 # Step 7: Close the cursor and connection
 cursor.close()
