@@ -170,7 +170,7 @@ for row in insert_query.splitlines():
     except:
         st.write(f"An error occurred")
         st.write(row)
-
+'''
 # Step 5: Fetch data from tables
 list_of_queries = []
 list_of_queries.append("SELECT * FROM AGENTS")
@@ -185,7 +185,7 @@ for query in list_of_queries:
     print(f"--- Data from tables ({query}) ---")
     for row in data:
         st.write(row)
-
+'''
 # Step 7: Close the cursor and connection
 cursor.close()
 conn.commit()
