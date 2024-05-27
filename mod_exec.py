@@ -168,8 +168,8 @@ for row in insert_query.splitlines():
     try:
         cursor.execute(row)
     except:
-        print(f"An error occurred")
-        print(row)
+        st.write(f"An error occurred")
+        st.write(row)
 
 # Step 5: Fetch data from tables
 list_of_queries = []
@@ -184,7 +184,7 @@ for query in list_of_queries:
 
     print(f"--- Data from tables ({query}) ---")
     for row in data:
-        print(row)
+        st.write(row)
 
 # Step 7: Close the cursor and connection
 cursor.close()
