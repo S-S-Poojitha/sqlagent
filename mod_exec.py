@@ -21,6 +21,19 @@ from langchain_openai import OpenAI
 from langchain.agents import create_sql_agent
 import os
 from dotenv import load_dotenv
+import sys
+import subprocess
+
+def install_requirements():
+    if sys.platform.startswith('win'):
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "-r", "requirements-windows.txt"])
+    else:
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "-r", "requirements.txt"])
+
+install_requirements()
+
+# rest of your code
+
 
 database_file_path = './sql_lite_database.db'
 
