@@ -1,0 +1,7 @@
+pip install wget
+pip install -r requirements.txt
+pip install langchain
+pip install -U langchain-community
+pip install -U langchain-openai
+pip install python-dotenv
+pip install streamlit
