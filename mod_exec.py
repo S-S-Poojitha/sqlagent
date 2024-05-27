@@ -24,25 +24,6 @@ from dotenv import load_dotenv
 import subprocess
 import sys
 from dotenv import load_dotenv
-
-def install_requirements():
-    try:
-        subprocess.check_call([sys.executable, "-m", "pip", "install", "-r", "requirements.txt"])
-    except subprocess.CalledProcessError as e:
-        print(f"Failed to install requirements: {e}")
-        print("Output:", e.output)
-        raise
-
-# Load environment variables
-load_dotenv()
-
-# Install requirements
-install_requirements()
-
-# Your main code here
-
-
-
 database_file_path = './sql_lite_database.db'
 
 # Check if database file exists and delete if it does
