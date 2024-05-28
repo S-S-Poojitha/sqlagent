@@ -6,4 +6,6 @@ pip install -U langchain-openai
 pip install python-dotenv
 pip install streamlit
 pip install graphviz
-
+sudo apt-get update
+sudo apt-get install graphviz
+dot -V
